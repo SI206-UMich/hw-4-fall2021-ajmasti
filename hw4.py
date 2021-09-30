@@ -1,6 +1,11 @@
 
 import unittest
 
+# Your name: Ajaeya Masti
+# Your student id: 77624247
+# Your email: ajmasti@umich.edu
+# List who you have worked with on this homework:
+
 # The Customer class
 # The Customer class represents a customer who will order from the stalls.
 class Customer: 
