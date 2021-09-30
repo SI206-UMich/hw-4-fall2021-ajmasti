@@ -82,7 +82,7 @@ class Stall:
     def process_order(self, name, quantity):
         if name in self.inventory.keys():
             self.inventory[name] -= quantity
-            self.money += self.cost * quantity
+            self.earnings += self.cost * quantity
     
     def has_item(self, name, quantity):
         if name in self.inventory.keys():
@@ -219,18 +219,36 @@ class TestAllMethods(unittest.TestCase):
 ### Write main function
 def main():
     #Create different objects 
+    i1 = {"Pizza":20, "Calzone":10, "Pasta":15}
+    i2 = {"Steak":30, "Chicken":20, "Fish":10}
+    f1 = Customer("Ajaeya", 110)
+    f2 = Customer("Sally", 200)
+    f3 = Customer("Jack", 50)
+    s1 = Stall("Papa John's", i1, cost = 8)
+    s2 = Stall("Fine Dining", i2, cost = 15)
+    c1 = Cashier("Ben", directory = [s1])
+    c2 = Cashier("Bob", directory = [s2])
+
 
     #Try all cases in the validate_order function
     #Below you need to have *each customer instance* try the four cases
     #case 1: the cashier does not have the stall 
-    
+    f1.validate_order(c1, s2, "Pizza", 5)
+    f2.validate_order(c2, s1, "Pizza", 5)
+    f3.validate_order(c1, s2, "Pizza", 5)
     #case 2: the casher has the stall, but not enough ordered food or the ordered food item
-    
+    f1.validate_order(c1, s1, "Calzone", 11)
+    f2.validate_order(c2, s2, "Fish", 15)
+    f3.validate_order(c1, s1, "Pizza", 21)
     #case 3: the customer does not have enough money to pay for the order: 
-    
+    f1.validate_order(c1, s1, "Pasta", 14)
+    f2.validate_order(c2, s2, "Steak", 29)
+    f3.validate_order(c2, s2, "Fish", 7)
     #case 4: the customer successfully places an order
-
-    pass
+    f1.validate_order(c2, s2, "Chicken", 2)
+    f2.validate_order(c1, s1, "Pizza", 3)
+    f3.validate_order(c2, s2, "Fish", 3)
+    
 
 if __name__ == "__main__":
 	main()
