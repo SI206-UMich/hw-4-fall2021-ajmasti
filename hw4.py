@@ -179,8 +179,8 @@ class TestAllMethods(unittest.TestCase):
     def test_compute_cost(self):
         #what's wrong with the following statements?
         #can you correct them?
-        self.assertEqual(self.s1.compute_cost(self.s1,5), 51)
-        self.assertEqual(self.s3.compute_cost(self.s3,6), 45)
+        self.assertEqual(self.s1.compute_cost(5), 50)
+        self.assertEqual(self.s3.compute_cost(6), 42)
 
 	# Check that the stall can properly see when it is empty
     def test_has_item(self):
@@ -189,24 +189,32 @@ class TestAllMethods(unittest.TestCase):
         # Test to see if has_item returns True when a stall has enough items left
         # Please follow the instructions below to create three different kinds of test cases 
         # Test case 1: the stall does not have this food item: 
-        
+        self.assertFalse(self.s1.has_item(("Pancake"), 2))
         # Test case 2: the stall does not have enough food item: 
-        
+        self.assertFalse(self.s2.has_item(("Burger"), 41))
         # Test case 3: the stall has the food item of the certain quantity: 
-        pass
+        self.assertTrue(self.s2.has_item(("Burger"), 10))
 
 	# Test validate order
     def test_validate_order(self):
+        inventory2 = {"Burger":1}
+        self.s4 = Stall("Empty Stall", inventory2)
+        self.c1.add_stall(self.s4)
+        self.s5 = Stall("Lone Stall", inventory2)
 		# case 1: test if a customer doesn't have enough money in their wallet to order
-
+        self.f1.validate_order(self.c1, self.s1, "Burger", 30)
+        self.assertEqual(self.f1.wallet, 100)
 		# case 2: test if the stall doesn't have enough food left in stock
-
+        self.f2.validate_order(self.c1, self.s4, "Burger", 2)
+        self.assertEqual(self.f2.wallet, 150)
 		# case 3: check if the cashier can order item from that stall
-        pass
+        self.f2.validate_order(self.c1, self.s5, "Burger", 5)
+        self.assertEqual(self.f2.wallet, 150)
 
     # Test if a customer can add money to their wallet
     def test_reload_money(self):
-        pass
+        self.f1.reload_money(25)
+        self.assertEqual(self.f1.wallet, 125)
     
 ### Write main function
 def main():
